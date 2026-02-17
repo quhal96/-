@@ -25,19 +25,24 @@ const Dashboard: React.FC<DashboardProps> = ({ tasks, stats }) => {
   }, [tasks]);
 
   const categoryData = useMemo(() => {
-    return CATEGORIES.map(cat => ({
+    const data = CATEGORIES.map(cat => ({
       name: cat.label,
       value: tasks.filter(t => t.category === cat.id).length,
       color: cat.color
     })).filter(c => c.value > 0);
+    
+    // Return empty array if no tasks, but Recharts prefers a placeholder if empty to avoid resize warnings
+    return data.length > 0 ? data : [{ name: 'لا يوجد بيانات', value: 0, color: '#1e293b' }];
   }, [tasks]);
 
   const statusData = useMemo(() => {
-    return Object.entries(STATUS_MAP).map(([key, val]) => ({
+    const data = Object.entries(STATUS_MAP).map(([key, val]) => ({
       name: val.label,
       value: tasks.filter(t => t.status === key).length,
       color: val.color
     })).filter(s => s.value > 0);
+
+    return data.length > 0 ? data : [{ name: 'لا يوجد بيانات', value: 0, color: '#1e293b' }];
   }, [tasks]);
 
   const StatCard = ({ title, value, subValue, icon: Icon, color, trend, brandColor }: any) => (
@@ -112,8 +117,9 @@ const Dashboard: React.FC<DashboardProps> = ({ tasks, stats }) => {
               <p className="text-slate-500 text-sm font-medium">حجم المهام والطلبات لكل قسم</p>
             </div>
           </div>
-          <div className="h-72">
-            <ResponsiveContainer width="100%" height="100%">
+          {/* Explicit height and minWidth={0} fixed Recharts resize errors */}
+          <div className="h-72 w-full">
+            <ResponsiveContainer width="100%" height="100%" minWidth={0}>
               <AreaChart data={categoryData}>
                 <defs>
                   <linearGradient id="colorBrand" x1="0" y1="0" x2="0" y2="1">
@@ -133,8 +139,9 @@ const Dashboard: React.FC<DashboardProps> = ({ tasks, stats }) => {
 
         <div className="bg-slate-900 border border-slate-800 rounded-[2.5rem] p-10 flex flex-col shadow-2xl">
           <h3 className="text-xl font-black text-white mb-8">حالات المهام</h3>
-          <div className="flex-1 min-h-[250px] relative">
-            <ResponsiveContainer width="100%" height="100%">
+          {/* Use minHeight to ensure parent stability for ResponsiveContainer */}
+          <div className="flex-1 min-h-[250px] relative w-full">
+            <ResponsiveContainer width="100%" height="100%" minWidth={0}>
               <PieChart>
                 <Pie data={statusData} cx="50%" cy="50%" innerRadius={70} outerRadius={90} paddingAngle={8} dataKey="value">
                   {statusData.map((entry, index) => <Cell key={`cell-${index}`} fill={entry.color} />)}

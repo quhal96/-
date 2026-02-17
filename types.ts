@@ -31,6 +31,7 @@ export interface PurchaseItem {
   name: string;
   unit: string;
   quantity: number;
+  price: number; // أضيف حديثاً
   itemCode: string;
   total: number;
 }
@@ -66,7 +67,7 @@ export interface Task {
   checklist: { id: string; text: string; completed: boolean }[];
   attachments?: string[];
   progress: number;
-  actualTime?: number; // in minutes
+  actualTime?: number; 
   createdAt: string;
   purchaseData?: PurchaseData;
   logs?: TaskLog[];

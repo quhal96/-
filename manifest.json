@@ -1,0 +1,25 @@
+
+{
+  "name": "نظام مجمع الأمل الطبي",
+  "short_name": "الأمل الطبي",
+  "description": "نظام متكامل لإدارة العمليات التشغيلية والمشتريات الطبية",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#020617",
+  "theme_color": "#1B3F94",
+  "dir": "rtl",
+  "lang": "ar",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/3063/3063176.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/3063/3063176.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
